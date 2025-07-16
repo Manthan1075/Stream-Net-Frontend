@@ -1,7 +1,7 @@
-import userReducer from '../services/userServices.js'
-import videoReducer from '../services/videoServices.js'
-import uiReducer from '../services/uiServices.js'
-import searchReducer from '../services/searchService .js'
+import userReducer from '../services/auth/authService.js'
+import videoReducer from '../services/video/videoServices'
+import uiReducer from '../services/ui/uiServices'
+import searchReducer from '../services/search/searchService '
 
 export const reducers = {
     user: userReducer,

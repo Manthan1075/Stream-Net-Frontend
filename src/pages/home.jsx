@@ -1,13 +1,13 @@
 import React from 'react'
-import Logo from '../components/Logo.jsx'
-import Signup from './Signup.jsx'
+import Spinner from '../components/loaders/Spinner.jsx'
+import ThemeBtn from '../components/ThemeBtn.jsx'
 
 function home() {
-    return (
 
-        <div className='bg-black'>
-            <Logo size={"md"} isDarkMode={true} />
-            <Signup />
+    return (
+        <div className='h-screen w-screen bg-amber-50 dark:bg-gray-800 flex items-center justify-center'>
+            <ThemeBtn />
+            <h3>Home Page</h3>
         </div>
     )
 }

@@ -9,6 +9,8 @@ const uiSlice = createSlice({
     reducers: {
         toggleDarkMode: (state) => {
             state.darkMode = !state.darkMode;
+            document.documentElement.classList.add(state.darkMode ? "dark" : "light");
+            document.documentElement.classList.remove(state.darkMode ? "light" : "dark");
         },
         toggleSidebarOpen: (state) => {
             state.sidebarOpen = !state.sidebarOpen;
