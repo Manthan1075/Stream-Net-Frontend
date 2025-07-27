@@ -2,35 +2,39 @@ import axios from 'axios'
 
 const API_URL = `${import.meta.env.VITE_BACKEND_API_URL}/users`;
 
-export const registerUser = async ({ fullName, username, email, password, avatar, coverImg }) => {
-    // const formData = new FormData();
+export const registerUser = async ({ fullName, username, email, password, avatar = "", coverImg = "" }) => {
+    try {
+        const formData = new FormData();
+        formData.append('fullName', fullName);
+        formData.append('username', username);
+        formData.append('email', email);
+        formData.append('password', password);
 
-    // formData.set('fullName', fullName ?? '');
-    // formData.set('username', username ?? '');
-    // formData.set('email', email ?? '');
-    // formData.set('password', password ?? '');
-    // if (avatar) {
-    //     formData.set('avatar', avatar);
-    // }
-    // if (coverImg) {
-    //     formData.set('coverImg', coverImg);
-    // }
-
-
-    const response = await axios.post(`${API_URL}/register`,
-        // formData,
-        {
-            fullName,
-            username,
-            email,
-            password,
-        },
-        {
-            withCredentials: true,
+        if (avatar) {
+            formData.set('avatar', avatar);
         }
-    );
-    return response.data || null;
+        if (coverImg) {
+            formData.set('coverImg', coverImg);
+        }
+
+        const response = await axios.post(
+            `${API_URL}/register`,
+            formData,
+            {
+                withCredentials: true,
+            }
+        );
+
+        console.log("REGISTER USER RESPONSE : ", response);
+        return response.data;
+    } catch (error) {
+        if (error.response && error.response.data) {
+            return error.response.data;
+        }
+        return { success: false, message: "An unexpected error occurred during signup." };
+    }
 }
+
 
 export const loginUser = async ({ login, password }) => {
     const response = await axios.post(`${API_URL}/login`,

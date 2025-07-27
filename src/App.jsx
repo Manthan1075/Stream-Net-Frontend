@@ -4,9 +4,11 @@ import Layout from "./shared/layout/Layout.jsx"
 import { Routes, Route } from 'react-router-dom'
 import Signup from "./pages/form/Signup.jsx"
 import { Toaster } from "./components/ui/sonner"
+import { registerUser } from "./services/auth/authAPI.js"
 
 
 function App() {
+ 
   return (
     <div>
       <Routes>

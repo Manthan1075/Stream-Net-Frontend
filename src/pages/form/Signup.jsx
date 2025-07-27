@@ -74,20 +74,20 @@ function Signup() {
 
     const onSubmit = async (data) => {
         try {
-            const res = await registerUser({
-                fullName: "Manthan Rathod",
-                username: "manthan@03",
-                email: "manthan@google.com",
-                password: "manthan123",
-            });
-            console.log("USER CREATED SUCCESSFULLY : ", res);
+            const res = await registerUser(data);
+            console.log("Signup error response:", res);
+            if (!res?.success) {
 
-            toast.success("Signup successful!");
+                toast.error(res?.message || "Signup failed!");
+                return;
+            }
+            toast.success(res?.message || "Signup successful!");
+            console.log("Signup response:", res);
         } catch (error) {
-            toast.error(error.message || "Signup failed!");
+            toast.error("An unexpected error occurred during signup.");
+            console.error("Signup error:", error);
         }
     };
-
 
     return (
         <div className="min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-slate-900 via-gray-900 to-slate-800 text-white p-4">
@@ -96,7 +96,7 @@ function Signup() {
                 <div className="hidden md:block md:w-1/2">
                     <img src={SignupImage} alt="Signup" className="h-full w-full object-cover" />
                 </div>
-                <Button onClick={onSubmit}>Fuck ME</Button>
+
                 {/* Form section */}
                 <div className="w-full md:w-1/2 p-6 sm:p-8 md:p-10 bg-slate-900/80 relative flex flex-col justify-center">
                     {/* Subtle background accent */}
