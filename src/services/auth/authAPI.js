@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const API_URL = `${import.meta.env.VITE_BACKEND_API_URL}/users`;
 
-export const registerUser = async ({ fullName, username, email, password, avatar = "", coverImg = "" }) => {
+export const registerUser = async ({ fullName, username, email, password, avatar, coverImg }) => {
     try {
         const formData = new FormData();
         formData.append('fullName', fullName);
@@ -25,7 +25,6 @@ export const registerUser = async ({ fullName, username, email, password, avatar
             }
         );
 
-        console.log("REGISTER USER RESPONSE : ", response);
         return response.data;
     } catch (error) {
         if (error.response && error.response.data) {
@@ -34,7 +33,6 @@ export const registerUser = async ({ fullName, username, email, password, avatar
         return { success: false, message: "An unexpected error occurred during signup." };
     }
 }
-
 
 export const loginUser = async ({ login, password }) => {
     const response = await axios.post(`${API_URL}/login`,

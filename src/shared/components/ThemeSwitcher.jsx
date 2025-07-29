@@ -40,11 +40,12 @@ function ThemeSelector({ type = "select" }) {
                 name='Theme'
                 defaultValue='light'
                 onValueChange={handleThemeChange}
+                value={darkMode ? 'dark' : 'light'}
             >
                 <SelectTrigger>
                     <SelectValue placeholder="Theme" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent >
                     <SelectItem value='light'><Sun /> Light</SelectItem>
                     <SelectItem value='dark'><Moon /> Dark</SelectItem>
                     <SelectItem value='system'><MonitorSmartphone /> System Mode</SelectItem>

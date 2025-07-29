@@ -8,16 +8,17 @@ import { registerUser } from "./services/auth/authAPI.js"
 
 
 function App() {
- 
+
   return (
-    <div>
+    <>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route element={<Layout />}>
+          <Route path="/" element={<Home />} />
+        </Route>
         <Route path="/signup" element={<Signup />} />
       </Routes>
       <Toaster richColors={true} />
-
-    </div>
+    </>
   )
 }
 

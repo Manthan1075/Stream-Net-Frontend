@@ -21,12 +21,9 @@ function Navbar() {
 
 
     return (
-        <div className='w-full bg-slate-50 h-16 flex items-center-safe justify-between'>
+        <div className='fixed top-0 left-0 w-screen h-16 flex items-center-safe justify-between'>
             <header>
-                {/* 
-                Sidebar Toogle Button
-                Logo
-            */}
+
                 <div>
                     <Button
                         onClick={handleOpenSidebar}
