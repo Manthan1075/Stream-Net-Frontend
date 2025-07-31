@@ -12,6 +12,8 @@ const userSlice = createSlice({
     },
     reducers: {
         loginUser: (state, action) => {
+            console.log("Login User :: Auth Service ", action.payload);
+
             state.username = action.payload.username
             state.email = action.payload.email
             state.fullName = action.payload.fullName
@@ -19,6 +21,7 @@ const userSlice = createSlice({
             state.coverImg = action.payload.coverImg
             state.isLoggedIn = true
         },
+
         logoutUser: (state) => {
             state.username = null
             state.email = null

@@ -11,10 +11,10 @@ export const registerUser = async ({ fullName, username, email, password, avatar
         formData.append('password', password);
 
         if (avatar) {
-            formData.set('avatar', avatar);
+            formData.append('avatar', avatar);
         }
         if (coverImg) {
-            formData.set('coverImg', coverImg);
+            formData.append('coverImg', coverImg);
         }
 
         const response = await axios.post(
@@ -35,139 +35,212 @@ export const registerUser = async ({ fullName, username, email, password, avatar
 }
 
 export const loginUser = async ({ login, password }) => {
-    const response = await axios.post(`${API_URL}/login`,
-        {
-            login,
-            password,
-        },
-        {
-            withCredentials: true,
-            headers: {
-                "Content-Type": "application/json",
-            },
-        })
-    return response.data || null;
+    try {
+        const response = await axios.post(
+            `${API_URL}/login`,
+            { login, password },
+            {
+                withCredentials: true,
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }
+        );
+        return response.data || null;
+    } catch (error) {
+        if (error.response && error.response.data) {
+            return error.response.data;
+        }
+        return null;
+    }
 }
 
 export const logoutUser = async () => {
-    const response = await axios.get(`${API_URL}/logout`, {}, {
-        withCredentials: true,
-        headers: {
-            "Content-Type": "application/json",
-        },
-    })
-    return response.data || null;
+    try {
+        const response = await axios.get(
+            `${API_URL}/logout`,
+            {
+                withCredentials: true,
+            }
+        );
+        return response.data || null;
+    } catch (error) {
+        if (error.response && error.response.data) {
+            return error.response.data;
+        }
+        return null;
+    }
 }
 
 export const updateUserProfile = async ({ fullName, username, email }) => {
-    const response = await axios.put(`${API_URL}/update-profile`,
-        {
-            fullName,
-            username,
-            email,
-        },
-        {
-            withCredentials: true,
-            headers: {
-                "Content-Type": "application/json",
-            },
-        })
-    return response.data || null;
+    try {
+        const response = await axios.put(
+            `${API_URL}/update-profile`,
+            { fullName, username, email },
+            {
+                withCredentials: true,
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }
+        );
+        return response.data || null;
+    } catch (error) {
+        if (error.response && error.response.data) {
+            return error.response.data;
+        }
+        return null;
+    }
 }
 
 export const updateUserAvatar = async (avatar) => {
-    const formData = new FormData()
-    formData.append('avatar', avatar)
-    const response = await axios.put(`${API_URL}/change-avatar`,
-        {
+    try {
+        const formData = new FormData();
+        formData.append('avatar', avatar);
+
+        const response = await axios.put(
+            `${API_URL}/change-avatar`,
             formData,
-        },
-        {
-            withCredentials: true,
-            headers: {
-                "Content-Type": "application/json",
-            },
-        })
-    return response.data || null;
+            {
+                withCredentials: true,
+            }
+        );
+        return response.data || null;
+    } catch (error) {
+        if (error.response && error.response.data) {
+            return error.response.data;
+        }
+        return null;
+    }
 }
 
 export const updateUserCoverImg = async (coverImg) => {
-    const formData = new FormData()
-    formData.append('coverImg', coverImg)
-    const response = await axios.put(`${API_URL}/change-coverimg`,
-        {
+    try {
+        const formData = new FormData();
+        formData.append('coverImg', coverImg);
+
+        const response = await axios.put(
+            `${API_URL}/change-coverimg`,
             formData,
-        },
-        {
-            withCredentials: true,
-            headers: {
-                "Content-Type": "application/json",
-            },
-        })
-    return response.data || null;
+            {
+                withCredentials: true,
+            }
+        );
+        return response.data || null;
+    } catch (error) {
+        if (error.response && error.response.data) {
+            return error.response.data;
+        }
+        return null;
+    }
 }
 
 export const changePassword = async ({ oldPassword, newPassword }) => {
-    const response = await axios.post(`${API_URL}/change-password`,
-        {
-            oldPassword,
-            newPassword,
-        },
-        {
-            withCredentials: true,
-            headers: {
-                "Content-Type": "application/json",
-            },
-        })
-    return response.data || null;
+    try {
+        const response = await axios.post(
+            `${API_URL}/change-password`,
+            { oldPassword, newPassword },
+            {
+                withCredentials: true,
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            }
+        );
+        return response.data || null;
+    } catch (error) {
+        if (error.response && error.response.data) {
+            return error.response.data;
+        }
+        return null;
+    }
 }
 
 export const getUserProfile = async () => {
-    const response = await axios.get(`${API_URL}/get-profile`, {
-        withCredentials: true,
-        headers: {
-            "Content-Type": "application/json",
-        },
-    });
-    return response.data || null;
+    try {
+        const response = await axios.get(
+            `${API_URL}/get-profile`,
+            {
+                withCredentials: true,
+            }
+        );
+        return response.data || null;
+    } catch (error) {
+        if (error.response && error.response.data) {
+            return error.response.data;
+        }
+        return null;
+    }
 }
+
 
 export const fetchProfile = async (userID) => {
-    const response = await axios.get(`${API_URL}/fetch-profile/${userID}`, {
-        withCredentials: true,
-        headers: {
-            "Content-Type": "application/json",
-        },
-    });
-    return response.data || null;
-}
-
-export const addTowatchHistory = async (videoId) => {
-    const response = await axios.get(`${API_URL}/add-to-history/${videoId}`,
-        {
-            withCredentials: true,
-            header: {
-                "Content-Type": "application/json",
-            },
+    try {
+        const response = await axios.get(
+            `${API_URL}/fetch-profile/${userID}`,
+            {
+                withCredentials: true,
+            }
+        );
+        return response.data || null;
+    } catch (error) {
+        if (error.response && error.response.data) {
+            return error.response.data;
         }
-    )
-    return response || null;
+        return null;
+    }
 }
 
+// Add to watch history: GET, no body
+export const addTowatchHistory = async (videoId) => {
+    try {
+        const response = await axios.get(
+            `${API_URL}/add-to-history/${videoId}`,
+            {
+                withCredentials: true,
+            }
+        );
+        return response.data || null;
+    } catch (error) {
+        if (error.response && error.response.data) {
+            return error.response.data;
+        }
+        return null;
+    }
+}
+
+// Remove from watch history: DELETE, no body
 export const removeFromWatchHistory = async (videoId) => {
-    const response = await axios.delete(`${API_URL}/remove-history/${videoId}`, {
-        withCredentials: true,
-        headers: {
-            "Content-Type": "application/json",
-        },
-    })
+    try {
+        const response = await axios.delete(
+            `${API_URL}/remove-history/${videoId}`,
+            {
+                withCredentials: true,
+            }
+        );
+        return response.data || null;
+    } catch (error) {
+        if (error.response && error.response.data) {
+            return error.response.data;
+        }
+        return null;
+    }
 }
 
+// Get watch history: GET, no body
 export const getWatchHistory = async () => {
-    const response = await axios.get(`${API_URL}/get-watch-history`, {
-        withCredentials: true,
-        headers: {
-            "Content-Type": "application/json",
-        },
-    })
+    try {
+        const response = await axios.get(
+            `${API_URL}/get-watch-history`,
+            {
+                withCredentials: true,
+            }
+        );
+        return response.data || null;
+    } catch (error) {
+        if (error.response && error.response.data) {
+            return error.response.data;
+        }
+        return null;
+    }
 }

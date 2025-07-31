@@ -40,7 +40,7 @@ function ThemeSelector({ type = "select" }) {
                 name='Theme'
                 defaultValue='light'
                 onValueChange={handleThemeChange}
-                value={darkMode ? 'dark' : 'light'}
+            // value={darkMode ? 'dark' : 'light'}
             >
                 <SelectTrigger>
                     <SelectValue placeholder="Theme" />

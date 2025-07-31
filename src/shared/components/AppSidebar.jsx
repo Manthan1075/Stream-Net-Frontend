@@ -41,7 +41,8 @@ function AppSidebar() {
           <Logo />
         </div>
       </SidebarHeader>
-      <SidebarContent>
+      <SidebarContent className='flex flex-col items-center justify-center h-full'>
+
 
       </SidebarContent>
     </Sidebar>

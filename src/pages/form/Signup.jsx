@@ -9,7 +9,7 @@ import { registerUser } from '../../services/auth/authAPI.js';
 import SignupImage from '../../assets/SignupPage.png';
 import Logo from '../../shared/components/Logo.jsx';
 import Spinner from '../../shared/Loaders/Spinner.jsx';
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 
 function Signup() {
     const [step, setStep] = useState(1);
@@ -224,7 +224,7 @@ function Signup() {
 
                         {step === 1 && (
                             <div className="text-center mt-3 text-white/60 text-base">
-                                Already have an account? <a href="/login" className="text-violet-400 hover:underline font-medium">Log in</a>
+                                Already have an account? <NavLink to="/login" className="text-violet-400 hover:underline font-medium">Log in</NavLink>
                             </div>
                         )}
                     </form>
