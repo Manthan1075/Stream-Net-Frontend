@@ -1,52 +1,188 @@
-import React from 'react'
-import { Sidebar, SidebarContent, SidebarHeader, useSidebar } from '../../components/ui/sidebar'
-import Logo from './Logo'
-import { useDispatch, useSelector } from 'react-redux'
+import React from 'react';
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarHeader,
+  useSidebar,
+} from '../../components/ui/sidebar';
+import Logo from './Logo';
+import { useDispatch, useSelector } from 'react-redux';
 import { toggleSidebarOpen } from '../../services/ui/uiServices.js';
 import { Button } from '../../components/ui/button';
-import { X } from 'lucide-react';
-import { Tooltip, TooltipContent, TooltipTrigger } from '../../components/ui/tooltip';
+import { UserCircle2, X, Home, ListVideo, History, UsersRound, ThumbsUp, Mail, HelpCircle, MonitorPlay, StickyNote, MessageSquareText, Video, Bell, Search, Clock } from 'lucide-react';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from '../../components/ui/tooltip';
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from '../../components/ui/avatar.js';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { Input } from '../../components/ui/input';
+import { Popover, PopoverContent, PopoverTrigger } from '../../components/ui/popover';
 
 function AppSidebar() {
   const dispatch = useDispatch();
-  const { open, setOpen } = useSidebar();
+  const { open, setOpen, openMobile, setOpenMobile, isMobile } = useSidebar();
+  const userData = useSelector((state) => state.user);
+  const navigate = useNavigate();
 
-  const handleToggle = () => {
-    setOpen(!open)
-    dispatch(toggleSidebarOpen());
-  }
+  const links = [
+    { name: 'Home', to: '/', icon: Home },
+    { name: 'Subscriptions', to: '/subscriptions', icon: ListVideo },
+    { name: 'Shorts', to: '/shorts', icon: Video },
+    { name: 'History', to: '/history', icon: History },
+    { name: 'Subscriber', to: '/subscribers', icon: UsersRound },
+    { name: 'My Videos', to: '/my-videos', icon: MonitorPlay },
+    { name: 'My Post', to: '/my-posts', icon: StickyNote },
+    { name: 'My Comments', to: '/my-comments', icon: MessageSquareText },
+    { name: 'Liked Content', to: '/liked-content', icon: ThumbsUp },
+    { name: 'Watch Later', to: '/watch-later', icon: Clock },
+    { name: 'Help', to: '/help', icon: HelpCircle },
+    { name: 'Contact Us', to: '/contact', icon: Mail },
+  ];
+
+  const handleClose = () => {
+    if (isMobile) {
+      setOpenMobile(false);
+    } else {
+      setOpen(false);
+      dispatch(toggleSidebarOpen());
+    }
+  };
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    console.log("Search submitted from sidebar");
+    handleClose();
+  };
 
   return (
     <Sidebar
       collapsible="offcanvas"
+      className="bg-white dark:bg-zinc-900 text-gray-800 dark:text-gray-100 shadow-lg w-72"
     >
-      <Button
-        aria-label="Close sidebar"
-        onClick={handleToggle}
-        className="absolute top-3 right-3 z-20 flex items-center justify-center w-10 h-10 rounded-full bg-gray-100 text-gray-600 hover:bg-gray-200 hover:text-gray-900 transition-colors shadow-lg"
-      >
-        <Tooltip>
-          <TooltipTrigger>
-            <X
-              style={{ height: 20, width: 25 }}
-            />
-          </TooltipTrigger>
-          <TooltipContent side="bottom">
-            Close Sidebar
-          </TooltipContent>
-        </Tooltip>
-      </Button>
-      <SidebarHeader>
-        <div className='w-full flex justify-center'>
-          <Logo />
+      {isMobile && (
+        <div className="absolute top-5 right-1.5 z-50">
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                size="icon"
+                variant="ghost"
+                className="bg-white/90 dark:bg-zinc-900/90 text-black dark:text-white border border-black/10 dark:border-white/10 hover:bg-slate-800/10 dark:hover:bg-white/10 hover:scale-110 shadow-lg ring-2 ring-black/10 dark:ring-white/10 rounded-full transition"
+                onClick={handleClose}
+                aria-label="Close Sidebar"
+              >
+                <X className="w-6 h-6" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="bottom">Close Sidebar</TooltipContent>
+          </Tooltip>
         </div>
+      )}
+
+      <SidebarHeader className="flex justify-center items-center py-6">
+        <Logo />
       </SidebarHeader>
-      <SidebarContent className='flex flex-col items-center justify-center h-full'>
 
+      <div className="border-t border-gray-300 dark:border-zinc-700 my-2 mx-6" />
 
+      {/* Mobile-only items */}
+      {isMobile && (
+        <>
+          <div className="px-4 py-2 flex items-center gap-2">
+            <form onSubmit={handleSearchSubmit} className="flex-1 flex items-center gap-2">
+              <Input type='search' placeholder='Search Anything...' className='flex-1' />
+              <Button variant="ghost" size="icon" title='Search' type="submit">
+                <Search className='w-5 h-5' />
+              </Button>
+            </form>
+          </div>
+
+          <div className="px-4 py-2">
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
+                  variant="ghost"
+                  className="w-full justify-start gap-3 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-100 dark:hover:bg-zinc-800"
+                >
+                  <div className="relative">
+                    <Bell className="w-5 h-5 text-muted-foreground" />
+                    <span className="absolute top-0 right-0 block w-2 h-2 rounded-full bg-red-600 animate-pulse"></span>
+                  </div>
+                  Notifications
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-64 p-4 rounded-lg shadow-lg bg-background border">
+                <div className="flex flex-col items-center justify-center text-muted-foreground py-4">
+                  <Bell className="w-8 h-8 mb-2 opacity-60" />
+                  <span className="text-sm">No Notifications</span>
+                </div>
+              </PopoverContent>
+            </Popover>
+          </div>
+
+          <div className="border-t border-gray-300 dark:border-zinc-700 my-2 mx-6" />
+        </>
+      )}
+
+      <SidebarContent className="px-4 py-2 space-y-2">
+        {links.map(({ name, to, icon: Icon }, index) => (
+          <NavLink
+            key={index}
+            to={to}
+            className={({ isActive }) =>
+              `w-full flex items-center gap-3 px-4 py-2 rounded-lg text-sm font-medium transition hover:bg-gray-100 dark:hover:bg-zinc-800 hover:text-blue-600 dark:hover:text-blue-400${isActive ? ' bg-gray-100 dark:bg-zinc-800 text-blue-600 dark:text-blue-400' : ''}`
+            }
+            onClick={handleClose}
+          >
+            <Icon className="w-5 h-5" />
+            {name}
+          </NavLink>
+        ))}
       </SidebarContent>
+
+      <SidebarFooter className="mt-auto border-t border-gray-200 dark:border-zinc-700 px-4 py-4">
+        {userData.isLoggedIn ? (
+          <div className="flex items-center gap-4">
+            <Avatar className="w-12 h-12 border shadow">
+              <AvatarImage
+                src={userData.avatar}
+                alt={userData.username || 'User Avatar'}
+              />
+              <AvatarFallback>
+                {userData.username
+                  ? userData.username.charAt(0).toUpperCase()
+                  : 'U'}
+              </AvatarFallback>
+            </Avatar>
+            <div className="text-sm">
+              <div className="font-semibold">{userData.username || 'User'}</div>
+              <div className="text-gray-500 dark:text-gray-400 text-xs">
+                {userData.email || 'example@email.com'}
+              </div>
+            </div>
+          </div>
+        ) : (
+          <Button
+            variant="ghost"
+            size="icon"
+            className="w-10 h-10 rounded-full flex items-center justify-center border border-muted bg-background shadow hover:scale-105 transition-all"
+            onClick={() => {
+              navigate('/login');
+              handleClose();
+            }}
+          >
+            <UserCircle2 className="w-6 h-6" />
+          </Button>
+        )}
+      </SidebarFooter>
     </Sidebar>
-  )
+  );
 }
 
-export default AppSidebar
+export default AppSidebar;

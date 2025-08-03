@@ -35,20 +35,19 @@ function ThemeSelector({ type = "select" }) {
     }
 
     return (
-        <div>
+        <div title='Change Theme'>
             <Select
                 name='Theme'
                 defaultValue='light'
                 onValueChange={handleThemeChange}
-            // value={darkMode ? 'dark' : 'light'}
             >
                 <SelectTrigger>
                     <SelectValue placeholder="Theme" />
                 </SelectTrigger>
                 <SelectContent >
-                    <SelectItem value='light'><Sun /> Light</SelectItem>
-                    <SelectItem value='dark'><Moon /> Dark</SelectItem>
-                    <SelectItem value='system'><MonitorSmartphone /> System Mode</SelectItem>
+                    <SelectItem value='light' className='cursor-pointer'><Sun /> Light</SelectItem>
+                    <SelectItem value='dark' className='cursor-pointer'><Moon /> Dark</SelectItem>
+                    <SelectItem value='system' className='cursor-pointer'><MonitorSmartphone /> System Mode</SelectItem>
                 </SelectContent>
             </Select>
         </div>

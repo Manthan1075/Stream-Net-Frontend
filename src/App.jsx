@@ -6,14 +6,10 @@ import Signup from "./pages/form/Signup.jsx"
 import { Toaster } from "./components/ui/sonner"
 import { registerUser } from "./services/auth/authAPI.js"
 import Login from "./pages/form/Login.jsx"
-import SplashScreen from "./shared/SplashScreen.jsx"
-
 
 function App() {
-
   return (
     <>
-      <SplashScreen />
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
@@ -25,7 +21,5 @@ function App() {
     </>
   )
 }
-
-
 
 export default App

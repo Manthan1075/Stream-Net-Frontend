@@ -4,7 +4,7 @@ const uiSlice = createSlice({
     name: "ui",
     initialState: {
         darkMode: false,
-        sidebarOpen: true,
+        sidebarOpen: false,
     },
     reducers: {
         toggleDarkMode: (state, action) => {

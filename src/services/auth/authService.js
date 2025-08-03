@@ -12,8 +12,6 @@ const userSlice = createSlice({
     },
     reducers: {
         loginUser: (state, action) => {
-            console.log("Login User :: Auth Service ", action.payload);
-
             state.username = action.payload.username
             state.email = action.payload.email
             state.fullName = action.payload.fullName

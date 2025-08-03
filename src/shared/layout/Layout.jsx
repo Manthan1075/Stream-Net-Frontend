@@ -3,6 +3,7 @@ import { SidebarProvider, SidebarTrigger } from '../../components/ui/sidebar'
 import AppSidebar from '../components/AppSidebar.jsx'
 import Navbar from '../components/Navbar.jsx'
 import PersistLogin from '../PersistLogin.jsx';
+import { Outlet } from "react-router-dom";
 
 function Layout({ children }) {
     return (
@@ -18,7 +19,7 @@ function Layout({ children }) {
                     <div className="flex flex-1">
                         <AppSidebar />
                         <main className="flex-1 p-4">
-                            {children}
+                            <Outlet />
                         </main>
                     </div>
                 </div>
