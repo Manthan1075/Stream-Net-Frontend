@@ -1,23 +1,27 @@
-import React from 'react'
-import ThemeSelector from '../shared/components/ThemeSwitcher.jsx'
+import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import SplashScreen from '../shared/SplashScreen.jsx'
 import { getPublishedVideos } from '../services/video/videoAPI.js'
 
 function Home() {
     const user = useSelector(state => state.user)
-    const [videos, setVideos] = React.useState([])
-    const [loading, setLoading] = React.useState(true)
-    const [error, setError] = React.useState(null)
+    const [videos, setVideos] = useState([])
+    const [loading, setLoading] = useState(true)
+    const [error, setError] = useState(null)
 
     React.useEffect(() => {
         const fetchVideos = async () => {
             setLoading(true)
             setError(null)
             try {
-                const res = await getPublishedVideos();
+                const res = await getPublishedVideos({
+                    page : 1,
+                });
+                console.log("Fetched Videos ::", res);
+
                 setVideos(res?.data?.videos || []);
             } catch (err) {
+                console.error("Error In Fetching Videos ::", err);
                 setError('Error fetching videos');
             } finally {
                 setLoading(false)
@@ -42,7 +46,7 @@ function Home() {
                                     key={video._id}
                                     className="rounded-xl bg-card shadow-md hover:shadow-lg transition duration-200 cursor-pointer group"
                                 >
-                                    
+
                                     <div className="relative aspect-video rounded-t-xl overflow-hidden">
                                         <img
                                             src={video.thumbnail}
@@ -54,9 +58,9 @@ function Home() {
                                         </span>
                                     </div>
 
-                                    
+
                                     <div className="flex gap-3 px-3 py-4">
-                                        
+
                                         <img
                                             src={video.creator.avatar}
                                             alt="creator avatar"

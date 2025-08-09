@@ -54,9 +54,9 @@ export const getVideoById = async (videoId) => {
     return response.data || null;
 }
 
-export const getPublishedVideos = async (page = 1, limit = 10, sortType = "latest", query = "") => {
+export const getPublishedVideos = async ({ page, limit = 10, sortType = "latest", query = "", type = "video" }) => {
     const response = await axios.get(
-        `${API_URL}/get-published-videos?page=${page}&limit=${limit}&sortType=${sortType}&query=${query}`,
+        `${API_URL}/get-published-videos?page=${page}&limit=${limit}&sortType=${sortType}&query=${query}&type=${type}`,
         {
             withCredentials: true,
         }

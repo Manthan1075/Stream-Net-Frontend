@@ -20,7 +20,7 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from '../../components/ui/avatar.js';
+} from '../../components/ui/avatar';
 import { NavLink, useNavigate } from 'react-router-dom';
 import { Input } from '../../components/ui/input';
 import { Popover, PopoverContent, PopoverTrigger } from '../../components/ui/popover';
