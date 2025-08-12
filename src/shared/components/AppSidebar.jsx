@@ -10,7 +10,7 @@ import Logo from './Logo';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggleSidebarOpen } from '../../services/ui/uiServices.js';
 import { Button } from '../../components/ui/button';
-import { UserCircle2, X, Home, ListVideo, History, UsersRound, ThumbsUp, Mail, HelpCircle, MonitorPlay, StickyNote, MessageSquareText, Video, Bell, Search, Clock } from 'lucide-react';
+import { UserCircle2, X, Home, ListVideo, History, UsersRound, ThumbsUp, Mail, HelpCircle, MonitorPlay, StickyNote, MessageSquareText, Video, Bell, Search, Clock, BookImage } from 'lucide-react';
 import {
   Tooltip,
   TooltipContent,
@@ -31,20 +31,28 @@ function AppSidebar() {
   const userData = useSelector((state) => state.user);
   const navigate = useNavigate();
 
-  const links = [
+  const appLinks = [
     { name: 'Home', to: '/', icon: Home },
-    { name: 'Subscriptions', to: '/subscriptions', icon: ListVideo },
     { name: 'Shorts', to: '/shorts', icon: Video },
-    { name: 'History', to: '/history', icon: History },
-    { name: 'Subscriber', to: '/subscribers', icon: UsersRound },
+    { name: 'Posts', to: '/post', icon: BookImage },
+  ];
+
+  const userLinks = [
     { name: 'My Videos', to: '/my-videos', icon: MonitorPlay },
+    { name: 'Watch Later', to: '/watch-later', icon: Clock },
+    { name: 'Liked Content', to: '/liked-content', icon: ThumbsUp },
+    { name: 'Subscriber', to: '/subscribers', icon: UsersRound },
+    { name: 'Subscriptions', to: '/subscriptions', icon: ListVideo },
+    { name: 'History', to: '/history', icon: History },
     { name: 'My Post', to: '/my-posts', icon: StickyNote },
     { name: 'My Comments', to: '/my-comments', icon: MessageSquareText },
-    { name: 'Liked Content', to: '/liked-content', icon: ThumbsUp },
-    { name: 'Watch Later', to: '/watch-later', icon: Clock },
+  ];
+
+  const otherLinks = [
     { name: 'Help', to: '/help', icon: HelpCircle },
     { name: 'Contact Us', to: '/contact', icon: Mail },
-  ];
+  ]
+
 
   const handleClose = () => {
     if (isMobile) {
@@ -57,7 +65,6 @@ function AppSidebar() {
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    console.log("Search submitted from sidebar");
     handleClose();
   };
 
@@ -91,59 +98,85 @@ function AppSidebar() {
 
       <div className="border-t border-gray-300 dark:border-zinc-700 my-2 mx-6" />
 
-      {/* Mobile-only items */}
-      {isMobile && (
-        <>
-          <div className="px-4 py-2 flex items-center gap-2">
-            <form onSubmit={handleSearchSubmit} className="flex-1 flex items-center gap-2">
-              <Input type='search' placeholder='Search Anything...' className='flex-1' />
-              <Button variant="ghost" size="icon" title='Search' type="submit">
-                <Search className='w-5 h-5' />
-              </Button>
-            </form>
+      <SidebarContent className="px-3 py-4 space-y-5">
+        {/* App Section */}
+        <div className="bg-gray-50 dark:bg-zinc-800 rounded-xl p-3 shadow-sm">
+          <div className="px-2 py-1 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
+            Explore
           </div>
+          <div className="space-y-1 mt-1">
+            {appLinks.map(({ name, to, icon: Icon }, index) => (
+              <NavLink
+                key={index}
+                to={to}
+                className={({ isActive }) =>
+                  `flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all 
+            ${isActive
+                    ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 shadow-inner'
+                    : 'hover:bg-gray-200 dark:hover:bg-zinc-700 hover:shadow-md'
+                  }`
+                }
+                onClick={handleClose}
+              >
+                <Icon className="w-5 h-5 flex-shrink-0" />
+                <span>{name}</span>
+              </NavLink>
+            ))}
+          </div>
+        </div>
 
-          <div className="px-4 py-2">
-            <Popover>
-              <PopoverTrigger asChild>
-                <Button
-                  variant="ghost"
-                  className="w-full justify-start gap-3 px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-100 dark:hover:bg-zinc-800"
+        <div className="bg-gray-50 dark:bg-zinc-800 rounded-xl p-3 shadow-sm">
+          <div className="px-2 py-1 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
+            Your Content
+          </div>
+          <div className="space-y-1 mt-1">
+            {userLinks.map(({ name, to, icon: Icon }, index) => (
+              <NavLink
+                key={index}
+                to={to}
+                className={({ isActive }) =>
+                  `flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all
+            ${isActive
+                    ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 shadow-inner'
+                    : 'hover:bg-gray-200 dark:hover:bg-zinc-700 hover:shadow-md'
+                  }`
+                }
+                onClick={handleClose}
+              >
+                <Icon className="w-5 h-5 flex-shrink-0" />
+                <span>{name}</span>
+              </NavLink>
+            ))}
+          </div>
+        </div>
+
+        {/* Other Links Section */}
+        {otherLinks && otherLinks.length > 0 && (
+          <div className="bg-gray-50 dark:bg-zinc-800 rounded-xl p-3 shadow-sm">
+            <div className="px-2 py-1 text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
+              Other
+            </div>
+            <div className="space-y-1 mt-1">
+              {otherLinks.map(({ name, to, icon: Icon }, index) => (
+                <NavLink
+                  key={index}
+                  to={to}
+                  className={({ isActive }) =>
+                    `flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all
+              ${isActive
+                        ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 shadow-inner'
+                        : 'hover:bg-gray-200 dark:hover:bg-zinc-700 hover:shadow-md'
+                      }`
+                  }
+                  onClick={handleClose}
                 >
-                  <div className="relative">
-                    <Bell className="w-5 h-5 text-muted-foreground" />
-                    <span className="absolute top-0 right-0 block w-2 h-2 rounded-full bg-red-600 animate-pulse"></span>
-                  </div>
-                  Notifications
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-64 p-4 rounded-lg shadow-lg bg-background border">
-                <div className="flex flex-col items-center justify-center text-muted-foreground py-4">
-                  <Bell className="w-8 h-8 mb-2 opacity-60" />
-                  <span className="text-sm">No Notifications</span>
-                </div>
-              </PopoverContent>
-            </Popover>
+                  <Icon className="w-5 h-5 flex-shrink-0" />
+                  <span>{name}</span>
+                </NavLink>
+              ))}
+            </div>
           </div>
-
-          <div className="border-t border-gray-300 dark:border-zinc-700 my-2 mx-6" />
-        </>
-      )}
-
-      <SidebarContent className="px-4 py-2 space-y-2">
-        {links.map(({ name, to, icon: Icon }, index) => (
-          <NavLink
-            key={index}
-            to={to}
-            className={({ isActive }) =>
-              `w-full flex items-center gap-3 px-4 py-2 rounded-lg text-sm font-medium transition hover:bg-gray-100 dark:hover:bg-zinc-800 hover:text-blue-600 dark:hover:text-blue-400${isActive ? ' bg-gray-100 dark:bg-zinc-800 text-blue-600 dark:text-blue-400' : ''}`
-            }
-            onClick={handleClose}
-          >
-            <Icon className="w-5 h-5" />
-            {name}
-          </NavLink>
-        ))}
+        )}
       </SidebarContent>
 
       <SidebarFooter className="mt-auto border-t border-gray-200 dark:border-zinc-700 px-4 py-4">
