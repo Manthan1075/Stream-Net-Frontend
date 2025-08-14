@@ -28,8 +28,6 @@ function VideoPlayer() {
     if (videoId) {
       fetchVideo();
     }
-    // Only run when videoId changes
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [videoId]);
 
   if (loading) {
@@ -46,16 +44,7 @@ function VideoPlayer() {
 
   return (
     <div>
-      {/* <video
-        src={video?.videoFile}
-        controls
-        muted
-        playsInline
-        preload="auto"
-        crossOrigin="anonymous"
-        className="w-screen max-w-3xl rounded-xl shadow-lg bg-black"
-      >
-      </video> */}
+     
       <Player type='video' videoURL={video?.videoFile} />
       <h2>{video.title}</h2>
       <p>{video.description}</p>

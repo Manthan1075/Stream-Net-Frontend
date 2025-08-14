@@ -19,7 +19,7 @@ function Home() {
             try {
                 const res = await getPublishedVideos({
                     page: 1,
-                    type: 'short',
+                    type: 'video',
                 });
                 console.log('Fetched Videos ::😄', res);
 

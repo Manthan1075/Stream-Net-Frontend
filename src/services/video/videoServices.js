@@ -3,12 +3,13 @@ import { createSelector, createSlice } from '@reduxjs/toolkit'
 const videoSlice = createSlice({
     name: "video",
     initialState: {
-        videos: [],
+        videos: [{
+            id: null,
+            error: null,
+            currentVideoTime: null,
+        }],
         currentVideo: null,
-        loading: false,
-        error: null,
-        currentVideoTime: null,
-        currentVideo: null,
+
     },
     reducers: {
         setVideo: (state, action) => {
