@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {
   Sidebar,
   SidebarContent,
@@ -30,6 +30,7 @@ function AppSidebar() {
   const { open, setOpen, openMobile, setOpenMobile, isMobile } = useSidebar();
   const userData = useSelector((state) => state.user);
   const navigate = useNavigate();
+  const sidebarState = useSelector((state) => state.ui.sidebarOpen);
 
   const appLinks = [
     { name: 'Home', to: '/', icon: Home },
@@ -67,6 +68,16 @@ function AppSidebar() {
     e.preventDefault();
     handleClose();
   };
+
+  useEffect(() => {
+    if (sidebarState) {
+      setOpen(true);
+      setOpenMobile(true);
+    } else {
+      setOpen(false);
+      setOpenMobile(false);
+    }
+   },[sidebarState]);
 
   return (
     <Sidebar
@@ -164,9 +175,9 @@ function AppSidebar() {
                   className={({ isActive }) =>
                     `flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-all
               ${isActive
-                        ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 shadow-inner'
-                        : 'hover:bg-gray-200 dark:hover:bg-zinc-700 hover:shadow-md'
-                      }`
+                      ? 'bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 shadow-inner'
+                      : 'hover:bg-gray-200 dark:hover:bg-zinc-700 hover:shadow-md'
+                    }`
                   }
                   onClick={handleClose}
                 >

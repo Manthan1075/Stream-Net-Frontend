@@ -14,11 +14,10 @@ function VideoPlayer() {
     setError(null);
     try {
       const response = await getVideoById(videoId);
-      console.log("Video Details ::", response.data);
       setVideo(response?.data);
-    } catch (error) {
+    } catch (err) {
       setError("Error fetching video");
-      console.error("Error fetching video:", error);
+      console.error("Error fetching video:", err);
     } finally {
       setLoading(false);
     }
@@ -31,25 +30,26 @@ function VideoPlayer() {
   }, [videoId]);
 
   if (loading) {
-    return <div>Loading video...</div>;
+    return <div className="flex items-center justify-center min-h-screen">Loading video...</div>;
   }
 
   if (error) {
-    return <div>{error}</div>;
+    return <div className="flex items-center justify-center min-h-screen text-red-500">{error}</div>;
   }
 
   if (!video) {
-    return <div>Video not found.</div>;
-  }
+    return <div className="flex items-center justify-center min-h-screen">Video not found.</div>;
+  } 
 
   return (
-    <div>
-     
-      <Player type='video' videoURL={video?.videoFile} />
-      <h2>{video.title}</h2>
-      <p>{video.description}</p>
+    <div className='flex flex-col items-center bg-orange-800 h-screen w-screen'>
+      <Player videoDetails={video} />
+      <div className="mt-4 p-4 w-full max-w-4xl bg-white rounded-lg shadow-md">
+        <h2 className="text-3xl font-bold mb-2">{video.title}</h2>
+        <p className="text-gray-700">{video.description}</p>
+      </div>
     </div>
   );
 }
 
-export default VideoPlayer
+export default VideoPlayer;

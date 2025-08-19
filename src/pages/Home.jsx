@@ -7,7 +7,6 @@ import { NavLink } from 'react-router-dom';
 import VideoCardSkeleton from '../shared/Loaders/VideoCardSkeleton.jsx';
 
 function Home() {
-    const user = useSelector((state) => state.user);
     const [videos, setVideos] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);

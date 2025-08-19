@@ -30,16 +30,18 @@ function Logo({ size = 'md', className = '', isDarkMode, ...props }) {
     return (
         <div
             className={clsx(
-                'flex items-center gap-1 font-semibold font-lato tracking-wider',
+                ' select-none flex items-center gap-1 font-semibold font-lato tracking-wider',
                 textColor,
                 textSize,
                 className
             )}
             {...props}
         >
-            <span className="font-bold">Stream</span>
-            <CirclePlay size={iconSize} className={iconColor} />
-            <span className={netTextColor}>Net</span>
+            <a href="/" className="flex items-center gap-1">
+                <span className="font-bold">Stream</span>
+                <CirclePlay size={iconSize} className={iconColor} />
+                <span className={netTextColor}>Net</span>
+            </a>
         </div>
     )
 }

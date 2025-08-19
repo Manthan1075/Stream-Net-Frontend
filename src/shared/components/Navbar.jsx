@@ -20,6 +20,7 @@ function Navbar() {
     const [profilePopOver, setProfilePopOver] = useState(false)
     const [logoutLoading, setLogoutLoading] = useState(false)
     const [mobileSearchOpen, setMobileSearchOpen] = useState(false)
+    const { open } = useSidebar()
 
     const handleLogout = async () => {
         try {
@@ -47,7 +48,9 @@ function Navbar() {
                         <SidebarTrigger />
                     </TooltipTrigger>
                     <TooltipContent>
-                        <p>Open Sidebar</p>
+                        {
+                            open ? <p>Close Sidebar</p> : <p>Open Sidebar</p>
+                        }
                     </TooltipContent>
                 </Tooltip>
                 <Logo size='md' />
