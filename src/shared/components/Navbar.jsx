@@ -14,6 +14,8 @@ import { Popover, PopoverContent, PopoverTrigger } from '../../components/ui/pop
 import { toast } from 'sonner'
 import { logoutUser } from '../../services/auth/authAPI.js'
 
+export const NAVBAR_HEIGHT = '4rem';
+
 function Navbar() {
     const userData = useSelector(state => state.user)
     const navigate = useNavigate()
@@ -41,7 +43,8 @@ function Navbar() {
     }
 
     return (
-        <div className='fixed top-0 left-0 w-full h-16 px-4 md:px-8 flex items-center justify-between border-b bg-background z-50'>
+        <div className={`fixed top-0 left-0 w-full h-[4rem] px-4 md:px-8 flex items-center justify-between
+         border-b shadow-2xl bg-background z-50`}>
             <div className='flex items-center gap-4'>
                 <Tooltip>
                     <TooltipTrigger asChild>

@@ -126,7 +126,7 @@
     @apply border-border outline-ring/50 transition-colors;
   }
   body {
-    @apply bg-background text-foreground transition-colors font-inter;
+    @apply bg-background text-foreground transition-colors font-inter overflow-x-hidden;
   }
 }
 
@@ -166,4 +166,11 @@ button {
 
 .dark * {
   scrollbar-color: #3f3f46 transparent;
+}
+
+.slider {
+  appearance: none;
+  width: 100%;
+  height: 8px;
+  background: red;
 }

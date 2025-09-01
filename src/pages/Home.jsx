@@ -10,33 +10,30 @@ function Home() {
     const [videos, setVideos] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-
+    const fetchVideos = async () => {
+        setLoading(true);
+        setError(null);
+        try {
+            const res = await getPublishedVideos({
+                page: 1,
+                type: 'video',
+            });
+            setVideos(res?.data?.videos || []);
+        } catch (err) {
+            console.error('Error In Fetching Videos ::', err);
+            setError('Error fetching videos');
+        } finally {
+            setLoading(false);
+        }
+    };
     useEffect(() => {
-        const fetchVideos = async () => {
-            setLoading(true);
-            setError(null);
-            try {
-                const res = await getPublishedVideos({
-                    page: 1,
-                    type: 'video',
-                });
-                console.log('Fetched Videos ::😄', res);
-
-                setVideos(res?.data?.videos || []);
-            } catch (err) {
-                console.error('Error In Fetching Videos ::', err);
-                setError('Error fetching videos');
-            } finally {
-                setLoading(false);
-            }
-        };
         fetchVideos();
     }, []);
 
     return (
         <>
             <SplashScreen />
-            <div className="min-h-screen mt-8 w-full px-4 md:px-10 py-6 bg-background">
+            <div className="min-h-screen w-full px-4 md:px-10 py-6 bg-background">
 
                 {loading && (
                     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
