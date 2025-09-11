@@ -12,7 +12,7 @@ function Spinner({ size = 'md', className = '' }) {
     return (
         <div
             className={clsx(
-                'animate-spin rounded-full border-t-transparent border-white',
+                'border-4 border-t-indigo-500 rounded-full animate-spin dark:border-t-blue-100',
                 sizeClasses[size] || sizeClasses['md'],
                 className
             )}

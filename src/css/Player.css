@@ -1,0 +1,10 @@
+#progress-bar {
+  appearance: none;
+  width: 100%;
+  height: 5px;
+  outline: none;
+}
+
+#progress-bar::-webkit-slider-thumb{
+  visibility: hidden;
+}
