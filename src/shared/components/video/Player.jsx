@@ -10,7 +10,9 @@ import React, { useEffect, useRef, useState } from "react";
 import {
     Select,
     SelectContent,
+    SelectGroup,
     SelectItem,
+    SelectLabel,
     SelectTrigger,
     SelectValue,
 } from "../../../components/ui/select";
@@ -29,7 +31,6 @@ function Player({ video = null }) {
     const [isFullscreen, setIsFullscreen] = useState(false);
     const [showControls, setShowControls] = useState(true);
 
-    // Load video metadata
     useEffect(() => {
         if (videoRef.current) {
             videoRef.current.onloadedmetadata = () => {
@@ -39,7 +40,6 @@ function Player({ video = null }) {
         }
     }, [video]);
 
-    // Track current time
     useEffect(() => {
         let frameId;
         function update() {
@@ -61,7 +61,6 @@ function Player({ video = null }) {
         return () => clearTimeout(timeout);
     }, [isPlaying, showControls]);
 
-    // 🔥 Keyboard shortcuts
     useEffect(() => {
         const handleKey = (e) => {
             if (!videoRef.current) return;
@@ -158,7 +157,6 @@ function Player({ video = null }) {
             />
 
 
-            {/* Center play icon when paused */}
             {!isPlaying && (
                 <div className="absolute inset-0 flex items-center justify-center">
                     <button
@@ -170,12 +168,10 @@ function Player({ video = null }) {
                 </div>
             )}
 
-            {/* Controls */}
             <div
                 className={`absolute bottom-0 w-full px-4 py-3 transition-all duration-500 ${showControls ? "opacity-100 translate-y-0" : "opacity-0 translate-y-5 pointer-events-none"
                     } bg-gradient-to-t from-black/80 to-transparent backdrop-blur-sm`}
             >
-                {/* Progress bar */}
                 <input
                     type="range"
                     min={0}
@@ -189,9 +185,7 @@ function Player({ video = null }) {
                     }}
                 />
 
-                {/* Bottom controls */}
                 <div className="flex items-center justify-between mt-2 text-sm">
-                    {/* Left controls */}
                     <div className="flex items-center gap-4">
                         <button
                             onClick={togglePlay}
@@ -223,24 +217,26 @@ function Player({ video = null }) {
                         </span>
                     </div>
 
-                    {/* Right controls */}
                     <div className="flex items-center gap-3 text-white">
                         <Select
                             value={playbackRate}
-                            onValueChange={(val) => changeSpeed(Number(val))}
+                            onValueChange={changeSpeed}
+                            defaultValue={playbackRate}
                         >
-                            <SelectTrigger className="bg-white/10 border border-white/30 cursor-pointer rounded px-2 py-1 text-xs">
-                                <SelectValue placeholder="Speed" />
+                            <SelectTrigger className="bg-white/10 border border-white/30 cursor-pointer rounded px-2 py-1 text-xs w-20">
+                                <SelectValue placeholder="1x" className="text-white" />
                             </SelectTrigger>
                             <SelectContent>
-                                <SelectItem value="0.25">0.25x</SelectItem>
-                                <SelectItem value="0.5">0.5x</SelectItem>
-                                <SelectItem value="1">1x</SelectItem>
-                                <SelectItem value="1.5">1.5x</SelectItem>
-                                <SelectItem value="2">2x</SelectItem>
+                                <SelectGroup >
+                                    <SelectLabel>Playback Speed</SelectLabel>
+                                    <SelectItem value="0.25">0.25x</SelectItem>
+                                    <SelectItem value="0.5">0.5x</SelectItem>
+                                    <SelectItem value="1">1x</SelectItem>
+                                    <SelectItem value="1.5">1.5x</SelectItem>
+                                    <SelectItem value="2">2x</SelectItem>
+                                </SelectGroup>
                             </SelectContent>
                         </Select>
-
                         <button
                             onClick={toggleFullscreen}
                             className="hover:text-red-500 transition text-white transform hover:scale-110"

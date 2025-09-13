@@ -5,6 +5,8 @@ import { getVideoById } from '../services/video/videoAPI.js'
 import Spinner from '../shared/Loaders/Spinner.jsx'
 import { Avatar, AvatarFallback, AvatarImage } from '../components/ui/avatar'
 import { Button } from '../components/ui/button'
+import { Download, MessageSquareText, Share, ThumbsUp } from 'lucide-react'
+import { toggleLike } from '../services/like/likeAPI.js'
 
 function VideoPlayer() {
   const { videoId } = useParams();
@@ -34,6 +36,18 @@ function VideoPlayer() {
     }
   }, [videoId]);
 
+  async function videoToggleLike() {
+    try {
+      const res = await toggleLike({
+        contentId: videoId,
+        contentType: "Video",
+      })
+      console.log("LIKE TOGGLED : 😄", res);
+    } catch (error) {
+      console.error("Error While Toggle Like Of Video ::", error);
+    }
+  }
+
   if (loading) {
 
     return (
@@ -56,24 +70,69 @@ function VideoPlayer() {
       <div className="w-full">
         <Player type="video" video={video} />
       </div>
+
       <div className='w-full bg-background'>
-        <div className='flex px-10'>
+        <div className='flex px-5'>
           <h3 className='font-roboto font-semibold text-xl text-wrap'>{video.description}</h3>
         </div>
-        <div className='px-10 py-2 flex items-center'>
-          <div className='flex gap-3 items-center'>
-            <Avatar className='h-10 w-10'>
-              <AvatarFallback>
-                <h3 className='text-xl'>
-                  {video.creator?.username.charAt(0).toUpperCase()}
-                </h3>
+        <div className="flex items-center justify-around gap-6 w-full py-4">
+          <div className="flex gap-5">
+            <Button
+              variant="outline"
+              className="rounded py-3 bg-grey-900/15 hover:bg-grey-900/25 border-none shadow-sm 
+                    flex items-center justify-center"
+              onClick={videoToggleLike}
+            >
+              <ThumbsUp className='text-green-500' />
+              {video.likes?.length}
+            </Button>
+
+            <Button
+              variant="outline"
+              className="rounded py-3 bg-blue-500/15 hover:bg-blue-500/25 border-none shadow-sm 
+                    flex items-center justify-center"
+            >
+              <MessageSquareText className="text-blue-500" />
+              150
+            </Button>
+
+            <Button
+              variant="outline"
+              className="rounded py-3 bg-purple-500/15 hover:bg-purple-500/25 border-none shadow-sm 
+                    flex items-center justify-center"
+            >
+              <Share className="text-purple-500" />
+              Share
+            </Button>
+
+            <Button
+              variant="outline"
+              className="rounded py-3 bg-orange-500/15 hover:bg-orange-500/25 border-none shadow-sm 
+                    flex items-center justify-center"
+            >
+              <Download className="text-orange-500" />
+              Download
+            </Button>
+          </div>
+          <div className="flex items-center gap-4">
+            <Avatar className="h-14 w-14 border">
+              <AvatarFallback className="text-xl font-semibold">
+                {video.creator?.username?.charAt(0).toUpperCase()}
               </AvatarFallback>
               <AvatarImage src={video.creator?.avatar} />
             </Avatar>
-            <h3>{video.creator?.username}</h3>
-            <Button>Subscribe</Button>
+            <div>
+              <h3 className="font-semibold text-lg">{video.creator?.username}</h3>
+              <p className="text-sm text-muted-foreground">
+                {video?.totalSubscribers} Subscribers
+              </p>
+            </div>
+            <Button size="lg" className="rounded-full px-6">
+              Subscribe
+            </Button>
           </div>
         </div>
+
       </div>
     </div>
   );
