@@ -7,11 +7,14 @@ import { Avatar, AvatarFallback, AvatarImage } from '../components/ui/avatar'
 import { Button } from '../components/ui/button'
 import { Download, MessageSquareText, Share, ThumbsUp } from 'lucide-react'
 import { toggleLike } from '../services/like/likeAPI.js'
+import { toggleSubscription } from '../services/subscription/subscriptionAPI.js'
+import { Tooltip, TooltipContent, TooltipTrigger } from '../components/ui/tooltip'
 
 function VideoPlayer() {
   const { videoId } = useParams();
   const [video, setVideo] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [likes, setLikes] = useState(0)
   const [error, setError] = useState(null);
 
   const fetchVideo = async () => {
@@ -21,6 +24,7 @@ function VideoPlayer() {
       const response = await getVideoById(videoId);
       setVideo(response?.data);
       console.log("RESPONSE DATA : 😄", response?.data);
+      setLikes(response?.data?.likes?.length || 0)
 
     } catch (err) {
       setError("Error fetching video");
@@ -42,14 +46,28 @@ function VideoPlayer() {
         contentId: videoId,
         contentType: "Video",
       })
-      console.log("LIKE TOGGLED : 😄", res);
+      console.log("RES OF LIKE ::", res);
+      if (res.success) {
+        setLikes(likes + 1);
+      }
+
     } catch (error) {
       console.error("Error While Toggle Like Of Video ::", error);
     }
   }
 
-  if (loading) {
+  async function toggleChannelSubscription() {
+    try {
+      console.log("Channel Id :", video.creator._id);
+      const res = await toggleSubscription(video.creator._id);
+      console.log("Response Of Toggle Subscription ::", res);
 
+    } catch (error) {
+      console.log("Error  In Toggle Subscription ::", error);
+    }
+  }
+
+  if (loading) {
     return (
       <div className='flex items-center justify-center min-h-screen w-screen'>
         <Spinner size='xl' />
@@ -77,24 +95,38 @@ function VideoPlayer() {
         </div>
         <div className="flex items-center justify-around gap-6 w-full py-4">
           <div className="flex gap-5">
-            <Button
-              variant="outline"
-              className="rounded py-3 bg-grey-900/15 hover:bg-grey-900/25 border-none shadow-sm 
-                    flex items-center justify-center"
-              onClick={videoToggleLike}
-            >
-              <ThumbsUp className='text-green-500' />
-              {video.likes?.length}
-            </Button>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="outline"
+                  className="rounded py-3 bg-grey-900/15 hover:bg-grey-900/25 border-none shadow-sm 
+                        flex items-center justify-center"
+                  onClick={videoToggleLike}
+                >
+                  <ThumbsUp className='text-green-500' />
+                  {likes}
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="top">
+                Like This Content
+              </TooltipContent>
+            </Tooltip>
 
-            <Button
-              variant="outline"
-              className="rounded py-3 bg-blue-500/15 hover:bg-blue-500/25 border-none shadow-sm 
-                    flex items-center justify-center"
-            >
-              <MessageSquareText className="text-blue-500" />
-              150
-            </Button>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="outline"
+                  className="rounded py-3 bg-blue-500/15 hover:bg-blue-500/25 border-none shadow-sm 
+                        flex items-center justify-center"
+                >
+                  <MessageSquareText className="text-blue-500" />
+                  150
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="top">
+                View comments
+              </TooltipContent>
+            </Tooltip>
 
             <Button
               variant="outline"
@@ -127,7 +159,9 @@ function VideoPlayer() {
                 {video?.totalSubscribers} Subscribers
               </p>
             </div>
-            <Button size="lg" className="rounded-full px-6">
+            <Button size="lg" className="rounded-full px-6"
+              onClick={toggleChannelSubscription}
+            >
               Subscribe
             </Button>
           </div>

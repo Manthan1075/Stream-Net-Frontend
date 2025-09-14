@@ -17,6 +17,7 @@ import {
     SelectValue,
 } from "../../../components/ui/select";
 import "../../../css/Player.css";
+import { Tooltip, TooltipContent, TooltipTrigger } from '../../../components/ui/tooltip'
 
 function Player({ video = null }) {
     const videoRef = useRef();
@@ -52,7 +53,6 @@ function Player({ video = null }) {
         return () => cancelAnimationFrame(frameId);
     }, [isPlaying]);
 
-    // Auto-hide controls
     useEffect(() => {
         let timeout;
         if (isPlaying && showControls) {
@@ -187,20 +187,38 @@ function Player({ video = null }) {
 
                 <div className="flex items-center justify-between mt-2 text-sm">
                     <div className="flex items-center gap-4">
-                        <button
-                            onClick={togglePlay}
-                            className="hover:text-red-500 transition text-white transform hover:scale-110"
-                        >
-                            {isPlaying ? <Pause size={22} /> : <Play size={22} />}
-                        </button>
+                        <Tooltip>
+                            <TooltipTrigger>
+                                <button
+                                    onClick={togglePlay}
+                                    className="hover:text-red-500 transition text-white transform hover:scale-110"
+                                >
+                                    {isPlaying ? <Pause size={22} /> : <Play size={22} />}
+                                </button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                <p className="font-semibold">
+                                    {isPlaying ? "Pause" : "Play"}
+                                </p>
+                            </TooltipContent>
+                        </Tooltip>
 
                         <div className="flex items-center gap-2 group/vol relative">
-                            <button
-                                onClick={toggleMute}
-                                className="hover:text-red-500 transition text-white"
-                            >
-                                {isMuted || volume === 0 ? <VolumeX size={22} /> : <Volume2 size={22} />}
-                            </button>
+                            <Tooltip>
+                                <TooltipTrigger>
+                                    <button
+                                        onClick={toggleMute}
+                                        className="hover:text-red-500 transition text-white"
+                                    >
+                                        {isMuted || volume === 0 ? <VolumeX size={22} /> : <Volume2 size={22} />}
+                                    </button>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    <p className="font-semibold">
+                                        {isMuted || volume === 0 ? "Unmute" : "Mute"}
+                                    </p>
+                                </TooltipContent>
+                            </Tooltip>
                             <input
                                 type="range"
                                 min={0}
@@ -218,31 +236,47 @@ function Player({ video = null }) {
                     </div>
 
                     <div className="flex items-center gap-3 text-white">
-                        <Select
-                            value={playbackRate}
-                            onValueChange={changeSpeed}
-                            defaultValue={playbackRate}
-                        >
-                            <SelectTrigger className="bg-white/10 border border-white/30 cursor-pointer rounded px-2 py-1 text-xs w-20">
-                                <SelectValue placeholder="1x" className="text-white" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectGroup >
-                                    <SelectLabel>Playback Speed</SelectLabel>
-                                    <SelectItem value="0.25">0.25x</SelectItem>
-                                    <SelectItem value="0.5">0.5x</SelectItem>
-                                    <SelectItem value="1">1x</SelectItem>
-                                    <SelectItem value="1.5">1.5x</SelectItem>
-                                    <SelectItem value="2">2x</SelectItem>
-                                </SelectGroup>
-                            </SelectContent>
-                        </Select>
-                        <button
-                            onClick={toggleFullscreen}
-                            className="hover:text-red-500 transition text-white transform hover:scale-110"
-                        >
-                            {isFullscreen ? <Minimize size={22} /> : <Maximize size={22} />}
-                        </button>
+                        <Tooltip>
+                            <TooltipTrigger>
+                                <Select
+                                    value={playbackRate}
+                                    onValueChange={changeSpeed}
+                                    defaultValue={playbackRate}
+                                >
+                                    <SelectTrigger className="bg-white/10 border border-white/30 cursor-pointer rounded px-2 py-1 text-xs w-20">
+                                        <SelectValue placeholder="1x" className="text-white" />
+                                    </SelectTrigger>
+                                    <SelectContent>
+                                        <SelectGroup >
+                                            <SelectLabel>Playback Speed</SelectLabel>
+                                            <SelectItem value="0.25">0.25x</SelectItem>
+                                            <SelectItem value="0.5">0.5x</SelectItem>
+                                            <SelectItem value="1">1x</SelectItem>
+                                            <SelectItem value="1.5">1.5x</SelectItem>
+                                            <SelectItem value="2">2x</SelectItem>
+                                        </SelectGroup>
+                                    </SelectContent>
+                                </Select>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                <p className="font-semibold">Playback Speed</p>
+                            </TooltipContent>
+                        </Tooltip>
+                        <Tooltip>
+                            <TooltipTrigger>
+                                <button
+                                    onClick={toggleFullscreen}
+                                    className="hover:text-red-500 transition text-white transform hover:scale-110"
+                                >
+                                    {isFullscreen ? <Minimize size={22} /> : <Maximize size={22} />}
+                                </button>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                <p className="font-semibold">
+                                    {isFullscreen ? "Exit Fullscreen" : "Enter Fullscreen"}
+                                </p>
+                            </TooltipContent>
+                        </Tooltip>
                     </div>
                 </div>
             </div>
