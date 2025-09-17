@@ -9,12 +9,14 @@ import { Download, MessageSquareText, Share, ThumbsUp } from 'lucide-react'
 import { toggleLike } from '../services/like/likeAPI.js'
 import { toggleSubscription } from '../services/subscription/subscriptionAPI.js'
 import { Tooltip, TooltipContent, TooltipTrigger } from '../components/ui/tooltip'
+import { toast } from 'sonner'
 
 function VideoPlayer() {
   const { videoId } = useParams();
   const [video, setVideo] = useState(null);
   const [loading, setLoading] = useState(true);
   const [likes, setLikes] = useState(0)
+  const [likeLoading, setLikeLoading] = useState(false)
   const [error, setError] = useState(null);
 
   const fetchVideo = async () => {
@@ -38,9 +40,11 @@ function VideoPlayer() {
     if (videoId) {
       fetchVideo();
     }
+
   }, [videoId]);
 
   async function videoToggleLike() {
+    setLikeLoading(true)
     try {
       const res = await toggleLike({
         contentId: videoId,
@@ -48,11 +52,18 @@ function VideoPlayer() {
       })
       console.log("RES OF LIKE ::", res);
       if (res.success) {
-        setLikes(likes + 1);
+        if (res.data.isLiked) {
+          setLikes((prev) => prev + 1)
+          toast.success("You Liked This Video")
+        } else {
+          setLikes((prev) => prev - 1)
+          toast.message("Like Removed")
+        }
       }
-
     } catch (error) {
       console.error("Error While Toggle Like Of Video ::", error);
+    } finally {
+      setLikeLoading(false)
     }
   }
 
@@ -103,8 +114,16 @@ function VideoPlayer() {
                         flex items-center justify-center"
                   onClick={videoToggleLike}
                 >
-                  <ThumbsUp className='text-green-500' />
-                  {likes}
+                  {likeLoading ?
+                    <Spinner size='sm' />
+                    :
+                    (
+                      <>
+                        < ThumbsUp className='text-green-500' />
+                        {likes}
+                      </>
+                    )
+                  }
                 </Button>
               </TooltipTrigger>
               <TooltipContent side="top">
